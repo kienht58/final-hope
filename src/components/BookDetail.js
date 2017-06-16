@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
 
-import {Jumbotron} from 'react-bootstrap'
-
 class BookDetail extends Component {
 		constructor(props) {
 				super(props)
@@ -50,27 +48,26 @@ class BookDetail extends Component {
 
 		render() {
 				const {book} = this.state
-				console.log(book)
 				return (
-					<div>
-						<Jumbotron>
-								<div>
-									<img src={book.cover} alt="book cover" />
-									<h2>{book.name}</h2>
-									<h3>{book.author}</h3>
-									<p dangerouslySetInnerHTML={{__html: book.description}}></p>
-									<p><strong>ISBN: {book.isbn}</strong></p>
-									<p><strong>Publisher: {book.provider}</strong></p>
-									<p><strong>Quantity: {book.quantity}</strong></p>
-									<p><strong>Borrower: {book.borrower}</strong></p>
-									<div className="category-tag">
-										<span><strong>Category: </strong></span>
-										<p>Art</p>
-										<p>Business</p>
-										<p>Ebooks</p>
-									</div>
-								</div>
-						</Jumbotron>
+					<div className="row book-detail">
+						<div className="col-xs-12 col-md-4 col-lg-5 book-cover">
+							<img src={book.cover} alt="book cover" />
+						</div>
+						<div className="col-xs-12 col-md-8 col-lg-7">
+							<h2>{book.name}</h2>
+							<h3>{book.author}</h3>
+							<p dangerouslySetInnerHTML={{__html: book.description + '...'}}></p>
+							<p><strong>ISBN: {book.isbn}</strong></p>
+							<p><strong>Publisher: {book.provider}</strong></p>
+							<p><strong>Quantity: {book.quantity}</strong></p>
+							<p><strong>Borrowers: {book.borrowers}</strong></p>
+							<div className="category-tag">
+								<span><strong>Category: </strong></span>
+								<p>Art</p>
+								<p>Business</p>
+								<p>Ebooks</p>
+							</div>
+						</div>
 					</div>
 				)
 		}

@@ -2,20 +2,33 @@
   text-align: center;
 }
 
-.App-header {
-  background-color: #222;
-  height: 50px;
-  padding: 20px;
-  color: white;
+.navbar-default {
+  background-color: #fff !important;
 }
 
-.App-intro {
-  font-size: large;
+.navbar {
+  margin-bottom: 0;
+  z-index: 9999;
+  border: 0;
+  font-size: 12px !important;
+  line-height: 1.42857143 !important;
+  letter-spacing: 4px;
+  border-radius: 0;
+  font-family: Montserrat, sans-serif;
+}
+.navbar-nav li a:hover, .navbar-nav li.active a {
+  color: #f4511e !important;
+  background-color: #fff !important;
+}
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+  color: #fff !important;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.jumbotron {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: #000;
+  font-family: Montserrat, sans-serif;
 }
 
 /*loading*/
@@ -47,4 +60,10 @@
   to {
     width: 1.25em;    
   }
+}
+
+/*book detail*/
+.book-cover img{
+  width: 250px;
+  height: 100%;
 }
