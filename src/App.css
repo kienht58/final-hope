@@ -2,20 +2,32 @@
   text-align: center;
 }
 
-.App-header {
-  background-color: #222;
-  height: 50px;
-  padding: 20px;
-  color: white;
+.navbar-default {
+  background-color: #fff !important;
 }
 
-.App-intro {
-  font-size: large;
+.navbar {
+  margin-bottom: 0;
+  z-index: 9999;
+  border: 0;
+  font-size: 12px !important;
+  line-height: 1.42857143 !important;
+  letter-spacing: 4px;
+  border-radius: 0;
+  font-family: Montserrat, sans-serif;
+}
+.navbar-nav li a:hover, .navbar-nav li.active a {
+  color: #f4511e !important;
+  background-color: #fff !important;
+}
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+  color: #fff !important;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.jumbotron {
+  color: #000;
+  font-family: Montserrat, sans-serif;
 }
 
 /*loading*/
@@ -31,20 +43,40 @@
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
-  -webkit-animation: ellipsis steps(4,end) 2000ms infinite;      
+  -webkit-animation: ellipsis steps(4,end) 2000ms infinite;
   animation: ellipsis steps(4,end) 2000ms infinite;
-  content: "\2026"; 
+  content: "\2026";
   width: 0px;
 }
 
 @keyframes ellipsis {
   to {
-    width: 1.25em;    
+    width: 1.25em;
   }
 }
 
 @-webkit-keyframes ellipsis {
   to {
-    width: 1.25em;    
+    width: 1.25em;
   }
+}
+
+/*book detail*/
+.book-detail {
+    text-align: left;
+}
+
+.book-cover img{
+  width: 250px;
+  height: 100%;
+}
+
+.book-borrower {
+    display: inline-block;
+    padding: 10px 0;
+}
+
+.book-borrower img{
+    border-radius: 50%;
+    width: 45px;
 }
