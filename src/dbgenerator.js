@@ -6,21 +6,22 @@ export default function generateDatabase(url) {
 		db.info().then(function(result) {
 			if(result.doc_count === 0) {
 				fetch('http://tekobooks.herokuapp.com/api/book/?page=1&limit=10')
-				.then(function(result) {
-					result.json().then(function(res) {
-						var books = JSON.parse(res).books
+				.then(function(response) {
+					response.json().then(function(book_json) {
+						var books = JSON.parse(book_json).books
 						books.forEach(function(book, idx) {
 							fetch('http://tekobooks.herokuapp.com/api/book/get-borrowers/' + book.id)
-								.then(function(result) {
-									result.json().then(function(res) {
-										var borrowers = JSON.parse(res)
-										if(borrowers) {
+								.then(function(res) {
+									res.json().then(function(borrower_json) {
+										var borrowers = JSON.parse(borrower_json)
+										if(borrowers && borrowers.length) {
 											book.borrowers = borrowers
+										} else {
+											book.borrowers = []
 										}
 										book._id = '' + book.id
-										console.log(book)
 										db.put(book).then(function(response) {
-											console.log('insert successful', response)
+											console.log('Successfully inserted.')
 										}).catch(function(error) {
 											console.log(error)
 										})
@@ -30,7 +31,7 @@ export default function generateDatabase(url) {
 					})
 				})
 			} else {
-				console.log('already initiated. Prepare to sync.')
+				console.log('Database already initiated. Start synchronizing...')
 			}
 		})
 }

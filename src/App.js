@@ -1,32 +1,60 @@
 import React, { Component } from 'react'
-import {Route} from 'react-router-dom'
+import {Route, Link} from 'react-router-dom'
 import PouchDB from 'pouchdb'
 
 import './App.css'
 import BookList from './components/BookList'
 import BookDetail from './components/BookDetail'
 
-var db
+var db = new PouchDB('books')
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      books: []
+        books: []
     }
   }
 
-  async componentDidMount() {
-    db = new PouchDB('books')
-    PouchDB.sync('books', 'http://localhost:5984/books', {
-      live: true,
-      retry: true
-    })
-    var result = await db.allDocs({include_docs: true})
-    console.log(result)
+  componentWillMount() {
+      db.sync('http://localhost:5984/books', {
+        live: true,
+        retry: true
+      }).on(['complete'], function(info) {
+        db.allDocs({include_docs: true}).then(function(result) {
+            var allBooks = result.rows.map(function(row) {
+                return row.doc
+            })
+            this.setState = ({
+                books: allBooks
+            })
+            console.log('Books loaded and saved during componentWillMount phase of App component.')
+        }).catch(function(error) {
+            console.log('error: ', info)
+        })
+      }).on('error', function(info) {
+        console.log('error:', info)
+      })
   }
 
-  render() { 
+  async componentDidMount() {
+      try {
+          var result = await db.allDocs({
+              include_docs: true
+          })
+          var allBooks = result.rows.map(function(row) {
+              return row.doc
+          })
+          this.setState({
+              books: allBooks
+          })
+          console.log('Books loaded and saved during componentDidMount phase of App component.')
+      } catch (error) {
+          console.log('error', error)
+      }
+  }
+
+  render() {
     return (
       <div className="App">
         <div className="App-header">
@@ -38,7 +66,7 @@ class App extends Component {
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand" href="#myPage">Logo</a>
+                <Link to='/' className="navbar-brand">Logo</Link>
               </div>
               <div className="collapse navbar-collapse" id="myNavbar">
                 <ul className="nav navbar-nav navbar-right">
