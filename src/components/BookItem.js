@@ -23,8 +23,9 @@ class BookItem extends Component {
         }
     }
 
-    handleBorrow(event, id) {
+    handleBorrow(event, book) {
         event.preventDefault()
+        var that = this
         fetch('http://tekobooks.herokuapp.com/api/user/borrow', {
             method: 'POST',
             headers: {
@@ -32,15 +33,40 @@ class BookItem extends Component {
             },
             body: JSON.stringify({
                 email: 'ha.h@teko.vn',
-                book_id: id
+                book_id: book.id
             })
         }).then(function(response) {
             if(response.status === 200) {
-                this.setState({
-                    borrowed: true
-                })
+                const {db} = that.props
+                fetch('http://tekobooks.herokuapp.com/api/user/1')
+                    .then(function(response) {
+                        response.json().then(function(json) {
+                            var user = JSON.parse(json)
+                            book.borrowers.push(user)
+                            db.put({
+                                _id: book._id,
+                                _rev: book._rev,
+                                author: book.author,
+                                cover: book.cover,
+                                description: book.description,
+                                id: book.id,
+                                isbn: book.isbn,
+                                name: book.name,
+                                pages: book.pages,
+                                provider: book.provider,
+                                publish_year: book.publish_year,
+                                quantity: book.quantity,
+                                categories: book.categories,
+                                borrowers: book.borrowers
+                            }).then(function(response) {
+                                that.setState({
+                                    borrowed: true
+                                })
+                            })
+                        })
+                    })
             }
-        }.bind(this))
+        })
     }
 
     render() {
@@ -58,7 +84,7 @@ class BookItem extends Component {
                         {(borrowed) ? (
                             <button className="btn btn-sm btn-default" disabled>Đã mượn</button>
                         ) : (
-                            <button className="btn btn-sm btn-primary" onClick={(e) => this.handleBorrow(e, book.id)}>Mượn sách</button>
+                            <button className="btn btn-sm btn-primary" onClick={(e) => this.handleBorrow(e, book)}>Mượn sách</button>
                         )}
                     </div>
                 </div>

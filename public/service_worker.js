@@ -23,6 +23,9 @@ self.addEventListener("install", function(event) {
 			}).then(function(assets) {
 				const urlsToCache = [
 					"/",
+                    "/assets/css/bootstrap.min.css",
+                    "/assets/js/bootstrap.min.js",
+                    "/assets/js/jquery.min.js",
 					assets['main.js']
 				]
 				cache.addAll(urlsToCache);

@@ -6,7 +6,9 @@
     "bootstrap": "^3.3.7",
     "isomorphic-fetch": "^2.2.1",
     "pouchdb": "^6.2.0",
+    "pouchdb-quick-search": "^1.3.0",
     "react": "^15.6.1",
+    "react-autocomplete": "^1.5.9",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.1"
   },
