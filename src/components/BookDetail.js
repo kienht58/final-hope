@@ -80,8 +80,7 @@ class BookDetail extends Component {
 						</div>
 						<div className="col-xs-12 col-md-8 col-lg-7">
 							<h2>{book.name}</h2>
-							<h3>{book.author}</h3>
-							<p dangerouslySetInnerHTML={{__html: book.description}}></p>
+							<h4>By: {book.author}</h4>
 							<p><strong>ISBN: {book.isbn}</strong></p>
 							<p><strong>Publisher: {book.provider}</strong></p>
 							<p><strong>Quantity: {book.quantity}</strong></p>
@@ -103,6 +102,8 @@ class BookDetail extends Component {
 								<span>Business, </span>
 								<span>Ebooks</span>
 							</div>
+							<hr />
+							<p dangerouslySetInnerHTML={{__html: book.description}}></p>
 						</div>
 					</div>
 				)

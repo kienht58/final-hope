@@ -15,6 +15,7 @@
   letter-spacing: 4px;
   border-radius: 0;
   font-family: Montserrat, sans-serif;
+  color: #009dff;
 }
 .navbar-nav li a:hover, .navbar-nav li.active a {
   color: #f4511e !important;
@@ -26,6 +27,7 @@
 }
 
 .jumbotron {
+  padding-top: 50px;
   color: #000;
   font-family: Montserrat, sans-serif;
 }
