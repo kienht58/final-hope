@@ -5,7 +5,7 @@ export default function generateDatabase(url) {
 		var db = new PouchDB(url)
 		db.info().then(function(result) {
 			if(result.doc_count === 0) {
-				fetch('http://tekobooks.herokuapp.com/api/book/?page=1&limit=10')
+				fetch('http://tekobooks.herokuapp.com/api/book/?page=1&limit=100')
 				.then(function(response) {
 					response.json().then(function(book_json) {
 						var books = JSON.parse(book_json).books
@@ -20,10 +20,8 @@ export default function generateDatabase(url) {
 											book.borrowers = []
 										}
 										book._id = '' + book.id
-										db.put(book).then(function(response) {
-											console.log('Successfully inserted.')
-										}).catch(function(error) {
-											console.log(error)
+										return db.put(book).then(function(response) {
+											console.log("Data inserted into remote database")
 										})
 									})
 								})
@@ -31,7 +29,7 @@ export default function generateDatabase(url) {
 					})
 				})
 			} else {
-				console.log('Database already initiated. Start synchronizing...')
+				console.log('Remote database already initiated. Start synchronizing...')
 			}
 		})
 }

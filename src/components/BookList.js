@@ -4,13 +4,13 @@ import BookItem from './BookItem'
 
 class BookList extends Component {
 		render() {
-			const {books} = this.props
+			const {books, db} = this.props
 				return (
 					<div className="row book-list">
 						{(books && books.length) ? (
 							books.map(book => {
 								return (
-									<BookItem book={book} key={book.id}/>
+									<BookItem book={book} db={db} key={book.id}/>
 								)
 							})
 						) : (

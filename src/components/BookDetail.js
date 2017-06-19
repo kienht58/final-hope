@@ -19,21 +19,23 @@ class BookDetail extends Component {
 			return left
 		}
 
-		keepSynchronizing(db, book) {
+		keepSynchronizing(db) {
+			var that = this
 			db.changes({
 				live: true,
 				since: 'now',
 				include_docs: true
 			}).on('change', function(change) {
-				this.setState({
-					book: book,
-					borrowers: book.borrowers
+				var updatedBook = change.doc
+				that.setState({
+					book: updatedBook,
+					borrowers: updatedBook.borrowers
 				})
 			}).on('error', console.log.bind(console))
 		}
 
 		componentDidMount() {
-			const {books, db} = this.props
+			const {books} = this.props
 			if(books && books.length) {
 				const id = this.props.match.params.id
 				var idx = this.binarySearch(books, id)
@@ -46,8 +48,6 @@ class BookDetail extends Component {
 					})
 				}
 			}
-
-			this.keepSynchronizing(db, book)
 		}
 
 		componentWillUpdate(nextProps, nextState) {
@@ -66,6 +66,11 @@ class BookDetail extends Component {
 			}
 		}
 
+		componentDidUpdate() {
+			const {db} = this.props
+			this.keepSynchronizing(db)
+		}
+
 		render() {
 				const {book, borrowers} = this.state
 				return (
@@ -80,14 +85,18 @@ class BookDetail extends Component {
 							<p><strong>ISBN: {book.isbn}</strong></p>
 							<p><strong>Publisher: {book.provider}</strong></p>
 							<p><strong>Quantity: {book.quantity}</strong></p>
-							{(borrowers && borrowers.length) && (<div className="book-borrower">
+							<div className="book-borrower">
 								<span><strong>Borrowers: </strong></span>
-								{borrowers.map(function(borrower) {
-									return (
-										<img src={borrower.avatar} key={borrower.id} alt="avatar" />
-									)
-								})}
-							</div>)}
+								{borrowers.length ? (
+									borrowers.map(function(borrower) {
+										return (
+											<img src={borrower.avatar} key={borrower.id} alt="avatar" />
+										)
+									})
+								) : (
+									<span>Chưa có ai mượn sách này</span>
+								)}
+							</div>
 							<div className="category-tag">
 								<span><strong>Category: </strong></span>
 								<span>Art, </span>

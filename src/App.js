@@ -5,6 +5,9 @@ import PouchDB from 'pouchdb'
 import './App.css'
 import BookList from './components/BookList'
 import BookDetail from './components/BookDetail'
+import BookSearch from './components/BookSearch'
+import Login from './components/Login'
+import Register from './components/Register'
 
 var db = new PouchDB('books')
 
@@ -20,24 +23,28 @@ class App extends Component {
       db.sync('http://localhost:5984/books', {
         live: true,
         retry: true
-      }).on(['complete'], function(info) {
-        db.allDocs({include_docs: true}).then(function(result) {
-            var allBooks = result.rows.map(function(row) {
-                return row.doc
-            })
-            this.setState = ({
-                books: allBooks
-            })
-            console.log('Books loaded and saved during componentWillMount phase of App component.')
-        }).catch(function(error) {
-            console.log('error: ', info)
-        })
       }).on('error', function(info) {
         console.log('error:', info)
       })
   }
 
   async componentDidMount() {
+      //first time load or when change happen
+      var that = this
+      db.changes({
+          live: true,
+          limit: 50,
+          since: 'now',
+          include_docs: true
+      }).on('change', function(change) {
+         var bookList = that.state.books
+         bookList.push(change.doc)
+         that.setState({
+             books: bookList
+         })
+      }).on('error', console.log.bind(console))
+
+      //subsequences
       try {
           var result = await db.allDocs({
               include_docs: true
@@ -70,8 +77,8 @@ class App extends Component {
               </div>
               <div className="collapse navbar-collapse" id="myNavbar">
                 <ul className="nav navbar-nav navbar-right">
-                  <li><a href="#about">Login</a></li>
-                  <li><a href="#services">Register</a></li>
+                  <li><a href="/login">Đăng nhập</a></li>
+                  <li><a href="/register">Đăng kí</a></li>
                 </ul>
               </div>
             </div>
@@ -79,10 +86,8 @@ class App extends Component {
         </div>
         <div className="jumbotron text-center">
           <h1>TEKOBOOK</h1>
-          <p>Seach for books</p>
-          <form className="form-inline">
-            <input type="email" className="form-control" size="50" placeholder="Input anything e.g. name, author, category ..." required />
-          </form>
+          <p>Tìm kiếm sách</p>
+          <BookSearch db={db}/>
         </div>
         <div id="content" className="container">
           <Route
@@ -90,6 +95,7 @@ class App extends Component {
             render={(props) => (
               <BookList
                 {...props}
+                db = {db}
                 books = {this.state.books}
               />
             )}
@@ -104,8 +110,20 @@ class App extends Component {
               />
             )}
           />
+          <Route
+             exact path='/login'
+             component={Login}
+          />
+          <Route
+             exact path='/register'
+             component={Register}
+          />
         </div>
-      <footer>TEKOBOOK 2017</footer>
+      <footer>
+          <div className="footer-container">
+              TEKOBOOK 2017
+          </div>
+      </footer>
       </div>
     )
   }
