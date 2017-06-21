@@ -1,39 +1,20 @@
+.logo {
+  color: #2FA6AA !important;
+}
+
 .wrapper {
   text-align: center;
 }
 
 .container {
-  padding-left: 0;
-}
-
-.navbar-default {
-  background-color: #fff !important;
-}
-
-.navbar {
-  margin-bottom: 0;
-  z-index: 9999;
-  border: 0;
-  font-size: 12px !important;
-  line-height: 1.42857143 !important;
-  letter-spacing: 4px;
-  border-radius: 0;
-  font-family: Montserrat, sans-serif;
-  color: #009dff;
-}
-.navbar-nav li a:hover, .navbar-nav li.active a {
-  color: #f4511e !important;
-  background-color: #fff !important;
-}
-.navbar-default .navbar-toggle {
-  border-color: transparent;
-  color: #fff !important;
+  padding: 0;
 }
 
 .jumbotron {
-  padding-top: 50px;
+  padding: 0 50px;
   color: #000;
   font-family: Montserrat, sans-serif;
+  background-color: #fff;
 }
 
 /*loading*/
@@ -69,22 +50,53 @@
 
 /*book detail*/
 .book-detail {
-    text-align: left;
+  text-align: left;
 }
 
-.book-cover img{
-  width: 250px;
+.book-detail p {
+  font-size: 15px;
+}
+
+ul > li{
+  margin-right:25px;
+  font-weight:lighter;
+  cursor:pointer
+}
+li.active{
+  border-bottom:3px solid silver;
+}
+.item-photo {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-right:1px solid #f6f6f6;
   height: 100%;
 }
-
-.book-borrower {
-    display: inline-block;
-    padding: 10px 0;
+.borrower-avatar {
+  width: 45px;
+  border-radius: 50%;
 }
 
-.book-borrower img{
-    border-radius: 50%;
-    width: 45px;
+@media (max-width: 426px) {
+    .container {margin-top:0px !important;}
+    .container > .row{padding:0 !important;}
+    .container > .row > .col-xs-12.col-sm-5{
+        padding-right:0 ;    
+    }
+    .container > .row > .col-xs-12.col-sm-9 > div > p{
+        padding-left:0 !important;
+        padding-right:0 !important;
+    }
+    .container > .row > .col-xs-12.col-sm-9 > div > ul{
+        padding-left:10px !important;
+        
+    }            
+    .section{width:104%;}
+    .menu-items{padding-left:0;}
+}
+
+.borrow-button {
+  border-radius: 20px;
 }
 
 
@@ -177,4 +189,12 @@
 
 .book-info {
   text-align: left;
+}
+
+.book-list {
+  text-align:center;
+}
+
+footer {
+  text-align: center;
 }

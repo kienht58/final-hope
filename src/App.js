@@ -63,32 +63,15 @@ class App extends Component {
 
   render() {
     return (
-      <div className="wrapper">
-        <div className="container">
-        <div className="App-header">
-          <nav className="navbar navbar-default navbar-fixed-top">
-            <div className="container">
-              <div className="navbar-header">
-                <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                  <p style={{color: '#000'}}>Cài đặt</p>
-                </button>
-                <Link to='/' className="navbar-brand" style={{color: 'blue'}}>Logo</Link>
-              </div>
-              <div className="collapse navbar-collapse" id="myNavbar">
-                <ul className="nav navbar-nav navbar-right">
-                  <li><a href="/login" style={{color: '#009dff'}}>Đăng nhập</a></li>
-                  <li><a href="/register" style={{color: '#009dff'}}>Đăng kí</a></li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-        </div>
+      <div className="container">
         <div className="jumbotron text-center">
-          <h1>TEKOBOOK</h1>
-          <p>Tìm kiếm sách</p>
-          <BookSearch db={db}/>
+          <h1 className="logo">TEKOBOOK</h1>
+          <label className="search-text">
+            Tìm kiếm sách
+            <BookSearch db={db}/>
+          </label>
         </div>
-        <div id="content" className="container">
+        <div id="content" className="jumbotron">
           <Route
             exact path='/'
             render={(props) => (
@@ -123,8 +106,7 @@ class App extends Component {
               TEKOBOOK 2017
           </div>
       </footer>
-      </div>
-      </div>
+    </div>
     )
   }
 }
