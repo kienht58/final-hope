@@ -75,7 +75,7 @@ class BookItem extends Component {
         return (
             <div className="col-xs-6 col-md-4 col-lg-2">
                 <div className="thumbnail">
-                    <Link to={'/book/' + book.id}><img className="group list-group-image" src={book.cover} alt=""/></Link>
+                    <Link to={'/book/' + book.id}><img className="group list-group-image" src={book.cover} alt="book cover"/></Link>
                     <div className="caption">
                         <div className="row">
                             <p className="text-description" style={{display: 'none'}} dangerouslySetInnerHTML={{__html: book.description}}></p>
