@@ -14,17 +14,30 @@ function getSuggestions(arr, value) {
 
   const regex = new RegExp('\\b' + escapedValue, 'i');
 
-  return arr.filter(item => regex.test(getSuggestionValue(item)));
+  var suggestion_name = arr.filter(item => regex.test(getSuggestionName(item)))
+  var suggestion_author = arr.filter(item => regex.test(getSuggestionAuthor(item)))
+  var suggestion_isbn = arr.filter(item => regex.test(getSuggestionISBN(item)))
+
+  return suggestion_name.concat(suggestion_author, suggestion_isbn)
 }
 
-function getSuggestionValue(suggestion) {
+function getSuggestionName(suggestion) {
   return suggestion.name
+}
+
+function getSuggestionAuthor(suggestion) {
+  return suggestion.author
+}
+
+function getSuggestionISBN(suggestion) {
+  return suggestion.isbn
 }
 
 function renderSuggestion(suggestion, { query }) {
   const name = suggestion.name 
   const author = suggestion.author
   const cover = suggestion.cover
+  const isbn = suggestion.isbn
 
   return (
     <div className='row suggestion-content'>
@@ -34,6 +47,7 @@ function renderSuggestion(suggestion, { query }) {
       <div className="book-info col-xs-9 col-md-8 col-lg-8">
         <h4>{name}</h4>
         <h5>{author}</h5>
+        <p>{isbn}</p>
       </div>
     </div>
   );
@@ -81,7 +95,6 @@ class BookSearch extends Component {
 
   render() {
     const { value, suggestions } = this.state;
-    console.log(suggestions)
     const inputProps = {
       placeholder: "Nhập tên sách, tên tác giả, vv ...",
       value,
@@ -94,7 +107,7 @@ class BookSearch extends Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
+          getSuggestionValue={getSuggestionName}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps} />
       </div>

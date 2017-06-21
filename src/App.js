@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
-import {Route, Link} from 'react-router-dom'
 import PouchDB from 'pouchdb'
 
 import './App.css'
-import BookList from './components/BookList'
-import BookDetail from './components/BookDetail'
 import BookSearch from './components/BookSearch'
-import Login from './components/Login'
-import Register from './components/Register'
 
 var db = new PouchDB('books')
 
@@ -20,7 +15,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-      db.sync('http://localhost:5984/books', {
+      db.sync('https://6c7ca13f-773e-463d-9c75-5c714cf8dd87-bluemix.cloudant.com/books', {
         live: true,
         retry: true
       }).on('error', function(info) {
@@ -55,7 +50,6 @@ class App extends Component {
           this.setState({
               books: allBooks
           })
-          console.log('Books loaded and saved during componentDidMount phase of App component.')
       } catch (error) {
           console.log('error', error)
       }
@@ -70,36 +64,6 @@ class App extends Component {
             Tìm kiếm sách
             <BookSearch db={db}/>
           </label>
-        </div>
-        <div id="content" className="jumbotron">
-          <Route
-            exact path='/'
-            render={(props) => (
-              <BookList
-                {...props}
-                db = {db}
-                books = {this.state.books}
-              />
-            )}
-          />
-          <Route
-            path='/book/:id'
-            render={(props) => (
-              <BookDetail
-                {...props}
-                db = {db}
-                books = {this.state.books}
-              />
-            )}
-          />
-          <Route
-             exact path='/login'
-             component={Login}
-          />
-          <Route
-             exact path='/register'
-             component={Register}
-          />
         </div>
       <footer>
           <div className="footer-container">
