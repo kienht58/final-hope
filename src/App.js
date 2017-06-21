@@ -63,7 +63,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="wrapper">
+        <div className="container">
         <div className="App-header">
           <nav className="navbar navbar-default navbar-fixed-top">
             <div className="container">
@@ -122,6 +123,7 @@ class App extends Component {
               TEKOBOOK 2017
           </div>
       </footer>
+      </div>
       </div>
     )
   }
