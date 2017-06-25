@@ -17,7 +17,7 @@ class BookList extends Component {
 			 							<div className="wow col-md-2 col-sm-2" key={book.id}>
 			 								<div className="blog-thumb">
 			 								   <Link to={'book/' + book.id}><img src={book.cover} className="img-responsive" alt="Book cover" /></Link>
-
+											   <Link to={'book/' + book.id} className="btn btn-default">Read More</Link>
 			 								</div>
 			 							</div>
 										)

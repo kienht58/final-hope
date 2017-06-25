@@ -81,6 +81,9 @@ class BookDetail extends Component {
 					         <div className="wow fadeInUp col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-4" data-wow-delay="2.3s">
 								 <div className="project-info">
  									<img src={book.cover} className="img-responsive" alt="Single Project" />
+									<div className="project-info">
+										<p className="btn btn-default" disabled={borrowers.length ? true : false}>Mượn sách</p>
+									</div>
  								</div>
 							</div>
 

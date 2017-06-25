@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import Autosuggest from 'react-autosuggest'
 
 function escapeRegexCharacters(str) {
@@ -34,13 +35,14 @@ function getSuggestionISBN(suggestion) {
 }
 
 function renderSuggestion(suggestion, { query }) {
+  const id = suggestion.id
   const name = suggestion.name
   const author = suggestion.author
   const cover = suggestion.cover
   const isbn = suggestion.isbn
 
   return (
-    <div className='row suggestion-content'>
+    <Link to={'book/' + id} className='row suggestion-content'>
       <div className="cover col-xs-3 col-md-4 col-lg-4">
         <img src={cover} alt="book author"/>
       </div>
@@ -49,7 +51,7 @@ function renderSuggestion(suggestion, { query }) {
         <h5>{author}</h5>
         <p>{isbn}</p>
       </div>
-    </div>
+  </Link>
   );
 }
 
@@ -82,6 +84,12 @@ class BookSearch extends Component {
     });
   };
 
+  onSuggestionSelected = () => {
+      this.setState({
+          value: ''
+      })
+  }
+
   async componentDidMount() {
     const {db} = this.props
     var result = await db.allDocs({
@@ -107,6 +115,7 @@ class BookSearch extends Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          onSuggestionSelected={this.onSuggestionSelected}
           getSuggestionValue={getSuggestionName}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps} />
