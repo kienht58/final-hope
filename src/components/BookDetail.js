@@ -74,46 +74,42 @@ class BookDetail extends Component {
 		render() {
 				const {book, borrowers} = this.state
 				return (
-					<div className="container">
-	        	<div className="row book-detail">
-	                <div className="col-xs-4 item-photo">
-	                    <img src='http://books.google.com/books/content?id=_MW7oQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api' className="book-cover" alt="book cover"/>
-	                </div>
-	                <div className="col-xs-5">
-	                    <h3>{book.name}</h3>    
-	                    <h5>{book.author}</h5>
-	        
-	                    <p>ISBN: {book.isbn}</p>
-											<p>Publisher: {book.provider}</p>
-											<p>Quantity: {book.quantity}</p>
-											<div className="book-borrower">
-												<span><strong>Borrowers: </strong></span>
-												{borrowers.length ? (
-													borrowers.map(function(borrower) {
-														return (
-															<img src={borrower.avatar} key={borrower.id} className="borrower-avatar" alt="avatar" />
-														)
-													})
-												) : (
-													<span>Chưa có ai mượn sách này</span>
-												)}
-											</div>
-											<div className="category-tag">
-												<span><strong>Category: </strong></span>
-												<span>Art, </span>
-												<span>Business, </span>
-												<span>Ebooks</span>
-											</div>                                               
-	                </div>                              
-	        
-	                <div className="col-xs-9">
-	                    <div style={{width:'100%'}}>
-	                    		<hr />
-	                        <p dangerouslySetInnerHTML={{__html: book.description}}></p>
-	                    </div>
-	                </div>		
-	            </div>
-	        </div>
+					<section id="single-project">
+					   <div className="container">
+					      <div className="row">
+
+					         <div className="wow fadeInUp col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-4" data-wow-delay="2.3s">
+								 <div className="project-info">
+ 									<img src={book.cover} className="img-responsive" alt="Single Project" />
+ 								</div>
+							</div>
+
+							<div className="wow fadeInUp col-md-7 col-sm-7" data-wow-delay="2.6s">
+
+								   <h4>{book.name}</h4>
+
+								   <h5>Tác giả: {book.author}</h5>
+
+								   <h5>ISBN: {book.isbn}</h5>
+
+								   <h5><span>Người mượn:</span>
+                                   {borrowers.length ? (
+                                       borrowers.map(function(borrower) {
+                                           return (
+                                               <img src={borrower.avatar} key={borrower.id} className="borrower-avatar" alt="avatar" />
+                                           )
+                                       })
+                                   ) : (
+                                       <span>Chưa có ai mượn sách này</span>
+                                   )}</h5>
+
+							   <hr />
+								<p dangerouslySetInnerHTML={{__html: book.description}}></p>
+							</div>
+
+					      </div>
+					   </div>
+					</section>
 				)
 		}
 }

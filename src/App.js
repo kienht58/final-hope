@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import {Route, Link} from 'react-router-dom'
 import PouchDB from 'pouchdb'
 
 import './App.css'
 import BookSearch from './components/BookSearch'
+import BookList from './components/BookList'
+import BookDetail from './components/BookDetail'
 
 var db = new PouchDB('books')
 
@@ -56,20 +59,74 @@ class App extends Component {
   }
 
   render() {
+      const {books} = this.state
     return (
-      <div className="container">
-        <div className="jumbotron text-center">
-          <h1 className="logo">TEKOBOOK</h1>
-          <label className="search-text">
-            Tìm kiếm sách
-            <BookSearch db={db}/>
-          </label>
+        <div>
+        <div className="nav-container">
+           <nav className="nav-inner transparent">
+
+              <div className="navbar">
+                 <div className="container">
+                    <div className="row">
+
+                      <div className="brand">
+                        <Link to="/">TEKOBOOK</Link>
+                      </div>
+
+                    </div>
+                 </div>
+              </div>
+
+           </nav>
         </div>
-      <footer>
-          <div className="footer-container">
-              TEKOBOOK 2017
-          </div>
-      </footer>
+
+
+        <section id="header" className="header-five">
+        	<div className="container">
+        		<div className="row">
+
+        			<div className="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
+                  <div className="header-thumb">
+                      <h1 className="wow">Tìm kiếm sách</h1>
+                      <BookSearch db={db} />
+                  </div>
+        			</div>
+
+        		</div>
+        	</div>
+        </section>
+
+        <Route
+            exact path='/'
+            render={(props) => (
+              <BookList
+                {...props}
+                books = {books}
+                db = {db}
+              />
+            )}
+          />
+          <Route
+            path='/book/:id'
+            render={(props) => (
+              <BookDetail
+                {...props}
+                db = {db}
+                books = {books}
+              />
+            )}
+          />
+
+        <footer>
+        	<div className="container">
+        		<div className="row">
+        			<div className="col-md-12 col-sm-12">
+        				<p className="wow">TEKOBOOK © 2017</p>
+        			</div>
+
+        		</div>
+        	</div>
+        </footer>
     </div>
     )
   }

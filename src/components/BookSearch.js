@@ -7,7 +7,7 @@ function escapeRegexCharacters(str) {
 
 function getSuggestions(arr, value) {
   const escapedValue = escapeRegexCharacters(value.trim());
-  
+
   if (escapedValue === '') {
     return [];
   }
@@ -34,7 +34,7 @@ function getSuggestionISBN(suggestion) {
 }
 
 function renderSuggestion(suggestion, { query }) {
-  const name = suggestion.name 
+  const name = suggestion.name
   const author = suggestion.author
   const cover = suggestion.cover
   const isbn = suggestion.isbn
@@ -61,7 +61,7 @@ class BookSearch extends Component {
       value: '',
       suggestions: [],
       dataSource: []
-    };    
+    };
   }
 
   onChange = (event, { newValue, method }) => {
@@ -69,7 +69,7 @@ class BookSearch extends Component {
       value: newValue
     });
   };
-  
+
   onSuggestionsFetchRequested = ({ value }) => {
     this.setState({
       suggestions: getSuggestions(this.state.dataSource, value)
@@ -102,8 +102,8 @@ class BookSearch extends Component {
     };
 
     return (
-      <div className="container">
-        <Autosuggest 
+      <div className="wow">
+        <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}

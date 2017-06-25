@@ -1,22 +1,33 @@
 import React, {Component} from 'react'
-
-import BookItem from './BookItem'
+import {Link} from 'react-router-dom'
 
 class BookList extends Component {
 		render() {
-			const {books, db} = this.props
+			const {books} = this.props
 				return (
-					<div className="row book-list">
-						{(books && books.length) ? (
-							books.map(book => {
-								return (
-									<BookItem book={book} db={db} key={book.id}/>
-								)
-							})
-						) : (
-							<div className="loading">Loading</div>
-						)}
-					</div>
+					<section id="blog">
+						<div className="container">
+
+							<h1>Danh mục sách</h1>
+
+						  <div className="row">
+							  {(books && books.length) ? (
+								  books.map(book => {
+									  return (
+			 							<div className="wow col-md-2 col-sm-2" key={book.id}>
+			 								<div className="blog-thumb">
+			 								   <Link to={'book/' + book.id}><img src={book.cover} className="img-responsive" alt="Book cover" /></Link>
+
+			 								</div>
+			 							</div>
+										)
+									})
+									) : (
+										<div className="loading">Loading</div>
+									)}
+							</div>
+				 		</div>
+					</section>
 				)
 		}
 }
