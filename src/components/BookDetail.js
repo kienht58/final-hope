@@ -40,9 +40,9 @@ class BookDetail extends Component {
 			}
 		}
 
-		componentWillUpdate(nextProps, nextState) {
+		componentWillReceiveProps(nextProps) {
 			const id = nextProps.match.params.id
-			const {books} = this.props
+			var books = nextProps.books
 			if(books[id - 1] !== this.state.book) {
 				var book = books[id - 1]
 

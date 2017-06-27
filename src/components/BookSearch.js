@@ -90,17 +90,13 @@ class BookSearch extends Component {
       })
   }
 
-  componentDidMount() {
-    var that = this
-    const {db} = this.props
-    db.allDocs({
-      include_docs: true
-  }).then(function(result) {
-      var allBooks = result.rows.map(function(row) {
-        return row.doc
+  componentWillReceiveProps(nextProps) {
+    var books = nextProps.books
+    if(this.state.dataSource !== books) {
+      this.setState({
+        dataSource: books
       })
-      that.setState({dataSource: allBooks})
-  })
+    }
   }
 
   render() {

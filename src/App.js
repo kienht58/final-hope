@@ -18,38 +18,38 @@ class App extends Component {
   }
 
   componentDidMount() {
-      var that = this
-      db.sync('https://6c7ca13f-773e-463d-9c75-5c714cf8dd87-bluemix.cloudant.com/books', {
-        live: true,
-        retry: true
+    var that = this
+    db.sync('https://6c7ca13f-773e-463d-9c75-5c714cf8dd87-bluemix.cloudant.com/books', {
+      live: true,
+      retry: true
     }).on('change', function(change) {
-        var flags = {};
-        var newBooks = change.change.docs.filter(function(doc) {
-            if(flags[doc.id]) {
-                return false
-            }
+      var flags = {};
+      var newBooks = change.change.docs.filter(function(doc) {
+          if(flags[doc.id]) {
+            return false
+          }
 
-            flags[doc.id] = true
-            return true
-        })
-        that.setState({
-            books: newBooks
-        })
-    }).on('error', function(info) {
-        console.log('error:', info)
+          flags[doc.id] = true
+          return true
       })
-          db.allDocs({
-              include_docs: true
-          }).then(function(result) {
-              var allBooks = result.rows.map(function(row) {
-                  return row.doc
-              })
-              that.setState({
-                  books: allBooks
-              })
-          }).catch(function(error) {
-              console.log('error', error)
-          })
+      that.setState({
+        books: newBooks
+      })
+    }).on('error', function(info) {
+      console.log('error:', info)
+    })
+    db.allDocs({
+      include_docs: true
+    }).then(function(result) {
+      var allBooks = result.rows.map(function(row) {
+        return row.doc
+      })
+      that.setState({
+        books: allBooks
+      })
+    }).catch(function(error) {
+      console.log('error', error)
+    })
   }
 
   render() {
@@ -62,12 +62,12 @@ class App extends Component {
         <div className="nav-container">
            <nav className="nav-inner transparent">
 
-              <div className="navbar">
+              <div className="navbar navbar-inverse">
                  <div className="container">
                     <div className="row">
 
                       <div className="brand">
-                        <Link to="/tekobook">TEKOBOOK</Link>
+                        <Link to="/tekobook">Tủ sách Teko</Link>
                       </div>
 
                     </div>
@@ -85,7 +85,7 @@ class App extends Component {
         			<div className="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
                   <div className="header-thumb">
                       <h1 className="wow">Tìm kiếm sách</h1>
-                      <BookSearch db={db} />
+                      <BookSearch books={allBooks} />
                   </div>
         			</div>
 

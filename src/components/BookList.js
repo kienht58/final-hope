@@ -10,11 +10,11 @@ class BookList extends Component {
 
 							<h1>Danh mục sách</h1>
 
-						  <div className="row">
+						  <div className="row book-grid">
 							  {(books && books.length) ? (
 								  books.map(book => {
 									  return (
-			 							<div className="wow col-md-2 col-sm-2" key={book.id}>
+			 							<div className="col-md-2 col-sm-2" key={book.id}>
 			 								<div className="blog-thumb">
 			 								   <Link to={'/tekobook/book/' + book.id}><img src={book.cover} className="img-responsive" alt="Book cover" /></Link>
 											   <Link to={'/tekobook/book/' + book.id} className="btn btn-default">Read More</Link>
