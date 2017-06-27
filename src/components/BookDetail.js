@@ -9,16 +9,6 @@ class BookDetail extends Component {
 			}
 		}
 
-		binarySearch(arr, id) {
-			var left = 0, right = arr.length, mid
-			while(left < right) {
-				mid = (left + right) >>> 1
-				arr[mid]._id < id ? left = mid + 1: right = mid
-			}
-
-			return left
-		}
-
 		keepSynchronizing(db) {
 			var that = this
 			db.changes({
@@ -38,10 +28,10 @@ class BookDetail extends Component {
 			const {books} = this.props
 			if(books && books.length) {
 				const id = this.props.match.params.id
-				var idx = this.binarySearch(books, id)
 
-				if(books[idx] !== this.state.book) {
-					var book = books[idx]
+				if(books[id - 1] !== this.state.book) {
+					var book = books[id - 1]
+
 					this.setState({
 						book: book,
 						borrowers: book.borrowers
@@ -51,18 +41,15 @@ class BookDetail extends Component {
 		}
 
 		componentWillUpdate(nextProps, nextState) {
-			const {books} = nextProps
-			if(books && books.length) {
-				const id = this.props.match.params.id
-				var idx = this.binarySearch(books, id)
+			const id = nextProps.match.params.id
+			const {books} = this.props
+			if(books[id - 1] !== this.state.book) {
+				var book = books[id - 1]
 
-				if(books[idx] !== this.state.book) {
-					var book = books[idx]
-					this.setState({
-						book: book,
-						borrowers: book.borrowers
-					})
-				}
+				this.setState({
+					book: book,
+					borrowers: book.borrowers
+				})
 			}
 		}
 
@@ -80,7 +67,7 @@ class BookDetail extends Component {
 
 					         <div className="wow fadeInUp col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-4" data-wow-delay="2.3s">
 								 <div className="project-info">
- 									<img src={book.cover} className="img-responsive" alt="Single Project" />
+ 									<img src={book.cover} className="img-responsive" alt="book cover" />
 									<div className="project-info">
 										<p className="btn btn-default" disabled={borrowers.length ? true : false}>Mượn sách</p>
 									</div>

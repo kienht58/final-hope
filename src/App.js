@@ -17,49 +17,46 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
+      var that = this
       db.sync('https://6c7ca13f-773e-463d-9c75-5c714cf8dd87-bluemix.cloudant.com/books', {
         live: true,
         retry: true
-      }).on('error', function(info) {
+    }).on('change', function(change) {
+        var flags = {};
+        var newBooks = change.change.docs.filter(function(doc) {
+            if(flags[doc.id]) {
+                return false
+            }
+
+            flags[doc.id] = true
+            return true
+        })
+        that.setState({
+            books: newBooks
+        })
+    }).on('error', function(info) {
         console.log('error:', info)
       })
-  }
-
-  async componentDidMount() {
-      //first time load or when change happen
-      var that = this
-      db.changes({
-          live: true,
-          limit: 50,
-          since: 'now',
-          include_docs: true
-      }).on('change', function(change) {
-         var bookList = that.state.books
-         bookList.push(change.doc)
-         that.setState({
-             books: bookList
-         })
-      }).on('error', console.log.bind(console))
-
-      //subsequences
-      try {
-          var result = await db.allDocs({
+          db.allDocs({
               include_docs: true
+          }).then(function(result) {
+              var allBooks = result.rows.map(function(row) {
+                  return row.doc
+              })
+              that.setState({
+                  books: allBooks
+              })
+          }).catch(function(error) {
+              console.log('error', error)
           })
-          var allBooks = result.rows.map(function(row) {
-              return row.doc
-          })
-          this.setState({
-              books: allBooks
-          })
-      } catch (error) {
-          console.log('error', error)
-      }
   }
 
   render() {
-      const {books} = this.state
+      var allBooks = this.state.books
+      allBooks.sort(function(a, b) {
+          return a.id - b.id
+      })
     return (
         <div>
         <div className="nav-container">
@@ -70,7 +67,7 @@ class App extends Component {
                     <div className="row">
 
                       <div className="brand">
-                        <Link to="/">TEKOBOOK</Link>
+                        <Link to="/tekobook">TEKOBOOK</Link>
                       </div>
 
                     </div>
@@ -97,22 +94,22 @@ class App extends Component {
         </section>
 
         <Route
-            exact path='/'
+            exact path='/tekobook'
             render={(props) => (
               <BookList
                 {...props}
-                books = {books}
+                books = {allBooks}
                 db = {db}
               />
             )}
           />
           <Route
-            path='/book/:id'
+            path='/tekobook/book/:id'
             render={(props) => (
               <BookDetail
                 {...props}
                 db = {db}
-                books = {books}
+                books = {allBooks}
               />
             )}
           />

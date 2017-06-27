@@ -42,7 +42,7 @@ function renderSuggestion(suggestion, { query }) {
   const isbn = suggestion.isbn
 
   return (
-    <Link to={'book/' + id} className='row suggestion-content'>
+    <Link to={'/tekobook/book/' + id} className='row suggestion-content'>
       <div className="cover col-xs-3 col-md-4 col-lg-4">
         <img src={cover} alt="book author"/>
       </div>
@@ -90,15 +90,17 @@ class BookSearch extends Component {
       })
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    var that = this
     const {db} = this.props
-    var result = await db.allDocs({
+    db.allDocs({
       include_docs: true
-    })
-    var allBooks = result.rows.map(function(row) {
-      return row.doc
-    })
-    this.setState({dataSource: allBooks})
+  }).then(function(result) {
+      var allBooks = result.rows.map(function(row) {
+        return row.doc
+      })
+      that.setState({dataSource: allBooks})
+  })
   }
 
   render() {

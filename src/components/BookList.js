@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 class BookList extends Component {
 		render() {
-			const {books} = this.props
+			var {books} = this.props
 				return (
 					<section id="blog">
 						<div className="container">
@@ -16,14 +16,18 @@ class BookList extends Component {
 									  return (
 			 							<div className="wow col-md-2 col-sm-2" key={book.id}>
 			 								<div className="blog-thumb">
-			 								   <Link to={'book/' + book.id}><img src={book.cover} className="img-responsive" alt="Book cover" /></Link>
-											   <Link to={'book/' + book.id} className="btn btn-default">Read More</Link>
+			 								   <Link to={'/tekobook/book/' + book.id}><img src={book.cover} className="img-responsive" alt="Book cover" /></Link>
+											   <Link to={'/tekobook/book/' + book.id} className="btn btn-default">Read More</Link>
 			 								</div>
 			 							</div>
 										)
 									})
 									) : (
-										<div className="loading">Loading</div>
+										<div className="preloader">
+
+									        <div className="sk-spinner sk-spinner-pulse"></div>
+
+									    </div>
 									)}
 							</div>
 				 		</div>

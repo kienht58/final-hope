@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch'
 export default function generateDatabase(url) {
 		var db = new PouchDB(url)
 		db.info().then(function(result) {
+			console.log(result)
 			if(result.doc_count === 0) {
 				fetch('http://tekobooks.herokuapp.com/api/book/?page=1&limit=100')
 				.then(function(response) {
