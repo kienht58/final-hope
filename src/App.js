@@ -17,46 +17,41 @@ class App extends Component {
     }
   }
 
+getAllBooksFromDatabase(db, context) {
+  db.allDocs({
+    include_docs: true
+  }).then(function(result) {
+    var allBooks = result.rows.map(function(row) {
+      return row.doc
+    })
+    context.setState({
+      books: allBooks
+    })
+  }).catch(function(error) {
+    console.log('error', error)
+  })
+}
+
   componentDidMount() {
     var that = this
     db.sync('https://6c7ca13f-773e-463d-9c75-5c714cf8dd87-bluemix.cloudant.com/books', {
       live: true,
       retry: true
     }).on('change', function(change) {
-      var flags = {};
-      var newBooks = change.change.docs.filter(function(doc) {
-          if(flags[doc.id]) {
-            return false
-          }
-
-          flags[doc.id] = true
-          return true
-      })
-      that.setState({
-        books: newBooks
-      })
+      that.getAllBooksFromDatabase(db, that)
+    }).on('active', function(info) {
+      that.getAllBooksFromDatabase(db, that)
     }).on('error', function(info) {
       console.log('error:', info)
     })
-    db.allDocs({
-      include_docs: true
-    }).then(function(result) {
-      var allBooks = result.rows.map(function(row) {
-        return row.doc
-      })
-      that.setState({
-        books: allBooks
-      })
-    }).catch(function(error) {
-      console.log('error', error)
-    })
+    this.getAllBooksFromDatabase(db, this)
   }
 
   render() {
-      var allBooks = this.state.books
-      allBooks.sort(function(a, b) {
-          return a.id - b.id
-      })
+    var allBooks = this.state.books
+    allBooks.sort(function(a, b) {
+      return a.id - b.id
+    })
     return (
         <div>
         <div className="nav-container">
@@ -94,25 +89,25 @@ class App extends Component {
         </section>
 
         <Route
-            exact path='/tekobook'
-            render={(props) => (
-              <BookList
-                {...props}
-                books = {allBooks}
-                db = {db}
-              />
-            )}
-          />
-          <Route
-            path='/tekobook/book/:id'
-            render={(props) => (
-              <BookDetail
-                {...props}
-                db = {db}
-                books = {allBooks}
-              />
-            )}
-          />
+          exact path='/tekobook'
+          render={(props) => (
+            <BookList
+              {...props}
+              books = {allBooks}
+              db = {db}
+            />
+          )}
+        />
+        <Route
+          path='/tekobook/book/:id'
+          render={(props) => (
+            <BookDetail
+              {...props}
+              db = {db}
+              books = {allBooks}
+            />
+          )}
+        />
 
         <footer>
         	<div className="container">

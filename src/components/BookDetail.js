@@ -9,6 +9,15 @@ class BookDetail extends Component {
 			}
 		}
 
+		binarySearch(arr, docId) {
+		  var left = 0, right = arr.length, mid
+		  while (left < right) {
+		    mid = (left + right) >>> 1
+		    arr[mid].id < docId ? left = mid + 1 : right = mid
+		  }
+		  return left
+		}
+
 		keepSynchronizing(db) {
 			var that = this
 			db.changes({
@@ -29,8 +38,9 @@ class BookDetail extends Component {
 			if(books && books.length) {
 				const id = this.props.match.params.id
 
-				if(books[id - 1] !== this.state.book) {
-					var book = books[id - 1]
+				var idx = this.binarySearch(books, id)
+				if(books[idx] !== this.state.book) {
+					var book = books[idx]
 
 					this.setState({
 						book: book,
@@ -43,8 +53,9 @@ class BookDetail extends Component {
 		componentWillReceiveProps(nextProps) {
 			const id = nextProps.match.params.id
 			var books = nextProps.books
-			if(books[id - 1] !== this.state.book) {
-				var book = books[id - 1]
+			var idx = this.binarySearch(books, id)
+			if(books[idx] !== this.state.book) {
+				var book = books[idx]
 
 				this.setState({
 					book: book,
@@ -59,6 +70,7 @@ class BookDetail extends Component {
 		}
 
 		render() {
+			window.scrollTo(0, 0)
 				const {book, borrowers} = this.state
 				return (
 					<section id="single-project">
@@ -90,7 +102,7 @@ class BookDetail extends Component {
                                            )
                                        })
                                    ) : (
-                                       <span>Chưa có ai mượn sách này</span>
+                                       <span> Chưa có ai mượn sách này</span>
                                    )}</h5>
 
 							   <hr />

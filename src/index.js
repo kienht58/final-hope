@@ -4,7 +4,7 @@ import {Router} from 'react-router-dom';
 import {createBrowserHistory} from 'history';
 import ReactGA from 'react-ga';
 
-// import generateDatabase from './dbgenerator';
+import generateDatabase from './dbgenerator';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
@@ -17,7 +17,8 @@ history.listen(function(location, action) {
   ReactGA.pageview(location.pathname);
 });
 
-// generateDatabase('https://6c7ca13f-773e-463d-9c75-5c714cf8dd87-bluemix.cloudant.com/books')
+generateDatabase('https://6c7ca13f-773e-463d-9c75-5c714cf8dd87-bluemix.cloudant.com/books')
+
 ReactDOM.render((
     <Router history={history}>
         <App />

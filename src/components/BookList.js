@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 
 class BookList extends Component {
 		render() {
+			window.scrollTo(0, 0)
 			var {books} = this.props
 				return (
 					<section id="blog">
